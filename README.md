@@ -12,6 +12,7 @@ App development project with Jordan, Teddy, and Edo
 | git diff | What's the difference between my files? (need further explanation) |
 | git pull | Updates local branch from remote branch |
 | git push | Updates local from remote |
+
 ### How do I work locally?
 
 1. `git clone [url]` 
