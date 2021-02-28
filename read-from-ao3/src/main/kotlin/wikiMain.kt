@@ -6,12 +6,13 @@ fun main() {
 
     val doc = Jsoup.connect("$wiki/wiki/List_of_films_with_a_100%25_rating_on_Rotten_Tomatoes").get()    // <1>
 
-    doc.select(".wikitable:first-of-type tr td:first-of-type a")    // <2>
+    doc.select(".work.index:first-of-type tr td:first-of-type a")    // <2>
         .map { col -> col.attr("href") }    // <3>
         .parallelStream()    // <4>
         .map { extractMovieData(it) }    // <5>
         .filter { it != null }
         .forEach { println(it) }
+
 }
 
 /* We can process steams in parallel by just introducing parallelStream() call.
@@ -50,7 +51,7 @@ So this extracts the first td.
 
 .wikitable:first-of-type tr td:first-of-type a
 With in the first column we need anchor tag because this contains the URL for the movie page.
-
+w
 <3> We need href attribute because it contains the URL so using map we convert
 Element to String which contains the URL.
 
