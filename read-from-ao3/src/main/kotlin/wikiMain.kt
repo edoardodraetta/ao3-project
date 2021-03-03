@@ -2,7 +2,7 @@ import org.jsoup.Jsoup
 
 const val wiki = "https://en.wikipedia.org"
 
-fun main() {
+fun wikimain() {
 
     val doc = Jsoup.connect("$wiki/wiki/List_of_films_with_a_100%25_rating_on_Rotten_Tomatoes").get()    // <1>
 

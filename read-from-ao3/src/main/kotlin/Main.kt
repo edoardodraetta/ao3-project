@@ -1,25 +1,40 @@
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
 import java.io.File
-
-const val ao3 = "https://archiveofourown.org/"
 
 // https://try.jsoup.org
 
+
+// TODO:
+// -
+
+const val ao3 = "https://archiveofourown.org/"
+
+
 fun main() {
 
-    val doc = Jsoup.connect("$ao3/tags/The%20Avengers%20(Marvel)%20-%20All%20Media%20Types/works").get()
+    // Basic test implementation
 
-    val titles = doc.select("h4.heading").not("h4.landmark.heading")
-    val blurbs = doc.select("blockquote.userstuff.summary")
+    val doc : Document
+    val fanfic = Fanfic()
+    var url = "$ao3/tags/The%20Avengers%20(Marvel)%20-%20All%20Media%20Types/works"
 
-    File("ao3_avengers.dat").printWriter().use { out ->
-        for (line in 0..10) {
-            out.println(line)
-            out.println(titles[line].text())
-            out.println(blurbs[line].text())
+    doc = Jsoup.connect(url).get()
+
+    var fanfics = mutableListOf<Fanfic>()
+
+    // printCurrentPage(url)
+
+    doc.select("h4.heading").not("h4.landmark.heading").select("a[href^=/work]")
+        .map{ col -> col.attr("href")}
+        .parallelStream()
+        .map { extractFanficData(it) }
+        .forEach {
+            if (it != null) {
+                fanfics.add(it)
+            }
         }
-    }
+
+    printPageToTerminal(fanfics)
+//    printPageToFile("ao3_avengers.dat",fanfics)
 }
