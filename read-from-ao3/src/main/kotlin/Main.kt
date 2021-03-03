@@ -4,27 +4,21 @@ import java.io.File
 
 // https://try.jsoup.org
 
-
 // TODO:
-// -
+// - What do I want this program to look like?
 
-const val ao3 = "https://archiveofourown.org/"
-
+const val ao3 = "https://archiveofourown.org"
 
 fun main() {
 
-    // Basic test implementation
-
+    val fanfics = mutableListOf<Fanfic>()
     val doc : Document
-    val fanfic = Fanfic()
-    var url = "$ao3/tags/The%20Avengers%20(Marvel)%20-%20All%20Media%20Types/works"
+    val url = "$ao3/tags/The%20Avengers%20(Marvel)%20-%20All%20Media%20Types/works"
 
+    // Get Html document for Avengers page
     doc = Jsoup.connect(url).get()
 
-    var fanfics = mutableListOf<Fanfic>()
-
-    // printCurrentPage(url)
-
+    // Navigate to each title on the page and extract its data
     doc.select("h4.heading").not("h4.landmark.heading").select("a[href^=/work]")
         .map{ col -> col.attr("href")}
         .parallelStream()
@@ -35,6 +29,15 @@ fun main() {
             }
         }
 
-    printPageToTerminal(fanfics)
-//    printPageToFile("ao3_avengers.dat",fanfics)
+    // testing module
+
+//    for (i in 0..19) {
+//        println(i)
+//        println(fanfics[i].title)
+//        println(fanfics[i].body.take(15))
+//        println()
+//    }
+
+//     for (i in 0..4) fanfics[i].printToFile()
+
 }
